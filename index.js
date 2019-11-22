@@ -3,6 +3,8 @@ const { BlobServiceClient } = require('@azure/storage-blob')
 const express = require('express')
 const multer = require('multer');
 const getStream = require('into-stream');
+const uuidv4 = require('uuid/v4');
+const path = require('path');
 
 const app = express();
 
@@ -11,12 +13,16 @@ const { PORT, CONNECT_STR, CONTAINER_NAME, ACCOUNT_NAME } = process.env
 const inMemoryStorage = multer.memoryStorage();
 const upload = multer({ storage: inMemoryStorage });
 
-app.use(express.static('public'));
+app.use(
+  express.static('public')
+);
 
 uploadFileToBlob = async ({ originalname, size, mimetype, buffer }) => {
+  const filename = uuidv4() + path.extname(originalname);
+
   const blobServiceClient = await new BlobServiceClient.fromConnectionString(CONNECT_STR)
   const containerClient = await blobServiceClient.getContainerClient(CONTAINER_NAME)
-  const blobClient = containerClient.getBlobClient(originalname)
+  const blobClient = containerClient.getBlobClient(filename)
   const blockBlobClient = blobClient.getBlockBlobClient()
 
   const stream = getStream(buffer);
@@ -26,10 +32,12 @@ uploadFileToBlob = async ({ originalname, size, mimetype, buffer }) => {
     progress: ev => console.log(ev)
   })
 
+  const url = `https://${ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}/${filename}`;
+
   return {
-    filename: originalname,
+    filename,
     mimetype,
-    url: `https://${ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}/${originalname}`
+    url
   }
 };
 
