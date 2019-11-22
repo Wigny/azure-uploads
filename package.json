@@ -12,7 +12,8 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "start": "node -r dotenv/config index"
+    "dev": "node -r dotenv/config index",
+    "start": "node index.js"
   },
   "engines": {
     "node": ">=8.6"
