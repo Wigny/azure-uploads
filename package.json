@@ -13,5 +13,8 @@
   },
   "scripts": {
     "start": "node -r dotenv/config index"
+  },
+  "engines": {
+    "node": ">=8.6"
   }
 }
