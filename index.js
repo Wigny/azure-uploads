@@ -52,6 +52,7 @@ const uploadFile = async (req, res, next) => {
 }
 
 app.post('/', upload.single('file'), uploadFile);
+app.get('/', (req, res) => res.send(`Running in port ${PORT}`));
 
 app.listen(PORT, () =>
   console.log(`Running in ${PORT}`)
