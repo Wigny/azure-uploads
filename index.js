@@ -50,7 +50,7 @@ const uploadFile = async (req, res, next) => {
   }
 }
 
-app.post('/', upload.single('file'), uploadFile);
+app.post('/upload', upload.single('file'), uploadFile);
 app.get('/', (req, res) => res.send('Running'));
 
 app.listen(PORT, () =>
