@@ -5,16 +5,19 @@ const multer = require('multer');
 const getStream = require('into-stream');
 const uuidv4 = require('uuid/v4');
 const path = require('path');
-const cors = require('cors')
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-const { PORT, CONNECT_STR, CONTAINER_NAME, ACCOUNT_NAME } = process.env
+const { PORT, CONNECT_STR, CONTAINER_NAME, ACCOUNT_NAME, NODE_ENV } = process.env
 
 const inMemoryStorage = multer.memoryStorage();
 const upload = multer({ storage: inMemoryStorage });
 
 app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 uploadFileToBlob = async ({ originalname, size, mimetype, buffer }) => {
   const filename = uuidv4() + path.extname(originalname);
@@ -28,7 +31,7 @@ uploadFileToBlob = async ({ originalname, size, mimetype, buffer }) => {
 
   await blockBlobClient.uploadStream(stream, size, 20, {
     abortSignal: AbortController.timeout(30 * 60 * 1000),
-    progress: ev => { }
+    progress: _ev => { }
   })
 
   const url = `https://${ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}/${filename}`;
@@ -51,7 +54,16 @@ const uploadFile = async (req, res, next) => {
 }
 
 app.post('/upload', upload.single('file'), uploadFile);
-app.get('/', (req, res) => res.send('Running'));
+app.post('/:router', (req, res) => res.json({
+  dev: 'Wígny',
+  port: PORT,
+  environment: NODE_ENV,
+  params: req.params,
+  query: req.query,
+  body: req.body
+}));
+
+app.get('/', (_req, res) => res.send('Running'));
 
 app.listen(PORT, () =>
   console.log(`Running in ${PORT}`)
