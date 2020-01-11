@@ -15,10 +15,13 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "dev": "node -r dotenv/config index",
+    "dev": "nodemon -r dotenv/config index.js",
     "start": "node index.js"
   },
   "engines": {
     "node": ">=8.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
