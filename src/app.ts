@@ -57,12 +57,12 @@ app.post('/upload', upload.single('file'), async (req, res) => res.json(
   await uploadFile(req.file)
 ));
 
-app.get('/files', async (_req, res) => res.json(
-  await listFiles()
+app.get('/upload', (_req, res) => res.sendFile(
+  path.join(__dirname, '..', 'src', 'upload.html')
 ));
 
-app.get('/', (_req, res) => res.sendFile(
-  path.join(__dirname, '..', 'src', 'upload.html')
+app.get('/', async (_req, res) => res.json(
+  await listFiles()
 ));
 
 app.listen(PORT, () =>
