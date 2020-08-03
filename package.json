@@ -6,8 +6,9 @@
   "license": "MIT",
   "main": "dist/app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
-    "tsc": "tsc"
+    "start": "node dist/app.js",
+    "tsc": "tsc",
+    "postinstall": "yarn tsc"
   },
   "engines": {
     "node": ">=8.6"
