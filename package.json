@@ -1,27 +1,33 @@
 {
-  "name": "node-uploads",
+  "name": "azure-uploads",
   "version": "1.0.0",
-  "main": "index.js",
+  "repository": "https://github.com/Wigny/azure-uploads.git",
   "author": "Wígny Almeida",
   "license": "MIT",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.7",
+    "@types/express": "^4.17.7",
+    "@types/multer": "^1.4.3",
+    "@types/node": "^14.0.27",
+    "@types/uuid": "^8.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^3.9.7"
+  },
+  "engines": {
+    "node": ">=8.6"
+  },
   "dependencies": {
-    "@azure/storage-blob": "^12.0.0",
+    "@azure/storage-blob": "^12.2.0-preview.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "into-stream": "^5.1.1",
     "multer": "^1.4.2",
-    "uuid": "^3.3.3"
-  },
-  "scripts": {
-    "dev": "nodemon -r dotenv/config index.js",
-    "start": "node index.js"
-  },
-  "engines": {
-    "node": ">=8.6"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
+    "uuid": "^8.3.0"
   }
 }
